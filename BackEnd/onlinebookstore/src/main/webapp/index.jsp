@@ -7,8 +7,11 @@
 <body>
 <h1><%= "Hello World!" %></h1>
 <br/>
-<a href="book-servlet">Book Servlet</a>
-<a href="login-servlet">Login Servlet</a>
-<a href="signup-servlet">Login Servlet</a>
+<ul>
+<li><a href="book-servlet">Book Servlet</a></li>
+<li><a href="login-servlet">Login Servlet</a></li>
+<li><a href="signup-servlet">Signup Servlet</a></li>
+</ul>
+
 </body>
 </html>

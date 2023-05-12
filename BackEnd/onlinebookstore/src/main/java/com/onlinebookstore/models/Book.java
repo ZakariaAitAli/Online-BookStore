@@ -7,20 +7,25 @@ public class Book {
     private java.sql.Date publishedAt;
     private int stock;
     private double price;
+    private String author;
+    private String image;
 
     public Book() {
+
     }
 
-    public Book(int id, String title, String type, java.sql.Date publishedAt, int stock, double price) {
+    public Book(int id, String title, String type, java.sql.Date publishedAt, int stock, double price , String author , String image) {
         this.id = id;
         this.title = title;
         this.type = type;
         this.publishedAt = publishedAt;
         this.stock = stock;
         this.price = price;
+        this.author = author;
+        this.image = image;
     }
 
-    public int getId() {
+    public  int getId() {
         return id;
     }
 
@@ -66,5 +71,17 @@ public class Book {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    public String getImage() {
+        return image;
     }
 }

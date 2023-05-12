@@ -32,6 +32,7 @@ public class BookListIterator implements BookIterator {
                 book.setPublishedAt(rs.getDate("published_at"));
                 book.setStock(rs.getInt("stock"));
                 book.setPrice(rs.getDouble("price"));
+                book.setAuthor(rs.getString("author"));
                 bookList.add(book);
             }
         } catch (Exception e) {

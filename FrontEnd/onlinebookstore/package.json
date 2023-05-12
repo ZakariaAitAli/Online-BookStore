@@ -9,8 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@heroicons/react": "^1.0.6",
+    "@mui/material": "^5.12.3",
+    "@nextui-org/react": "^1.0.0-beta.12",
+    "isomorphic-unfetch": "^4.0.2",
     "next": "13.4.1",
+    "next-themes": "^0.2.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-toastify": "^9.1.2",
+    "react-tooltip": "^5.11.2"
+  },
+  "devDependencies": {
+    "@types/node": "20.1.0",
+    "@types/react": "18.2.6",
+    "typescript": "5.0.4"
   }
 }

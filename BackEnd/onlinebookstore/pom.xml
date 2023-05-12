@@ -41,6 +41,11 @@
             <artifactId>com-google-gson</artifactId>
             <version>RELEASE113</version>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.core</artifactId>
+            <version>4.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>

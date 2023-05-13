@@ -53,13 +53,20 @@ public class SignupServlet extends HttpServlet {
         UserBuilder builder = new ConcreteUserBuilder();
         builder.setEmail(email);
         builder.setPassword(password);
-        builder.setBalance(100.0);
+        builder.setBalance(1000.0);
         User user = builder.getUser();
 
-        // Save the User to the database or perform other actions as needed
-        Database database = new Database();
-        database.addUser(user);
+        // Perform the database operation asynchronously using a separate thread
+        Thread saveUserThread = new Thread(() -> {
+            // Save the User to the database or perform other actions as needed
+            Database database = new Database();
+            database.addUser(user);
+        });
+        saveUserThread.start();
 
+        // Return a response or perform any other necessary actions
+        response.setStatus(HttpServletResponse.SC_OK);
     }
+
 
 }

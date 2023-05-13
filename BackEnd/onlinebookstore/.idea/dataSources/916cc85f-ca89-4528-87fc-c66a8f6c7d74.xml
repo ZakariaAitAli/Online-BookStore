@@ -1164,7 +1164,7 @@
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_bin</CollationName>
     </table>
-    <table id="344" parent="324" name="cart_items">
+    <table id="344" parent="324" name="cart">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_general_ci</CollationName>
     </table>

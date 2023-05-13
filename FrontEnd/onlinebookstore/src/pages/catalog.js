@@ -25,6 +25,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 
+
 function Catalog() {
   const router = useRouter();
   useEffect(() => {
@@ -47,6 +48,22 @@ function Catalog() {
   const { isDark, type } = useTheme();
 
   const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    const storedCartItems = sessionStorage.getItem("cartItems");
+    if (storedCartItems) {
+      let parsedCartItems;
+      try {
+        parsedCartItems = JSON.parse(storedCartItems);
+      } catch (error) {
+        console.error("Error parsing cart items:", error);
+      }
+      if (parsedCartItems) {
+        setCartItems(parsedCartItems);
+        console.log("Cart Items:", parsedCartItems);
+      }
+    }
+  }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
@@ -81,6 +98,18 @@ function Catalog() {
       </div>
     );
   }
+  const addToCart = (item) => {
+    const isItemInCart = cartItems.some((cartItem) => cartItem.id === item.id);
+    if (isItemInCart) {
+      toast.warning(item.title + " is already in the cart!");
+      return;
+    }
+
+    const updatedCartItems = [...cartItems, item];
+    setCartItems(updatedCartItems);
+    sessionStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+    toast.success(item.title + " added to cart!");
+  };
 
   return (
     <div>
@@ -128,9 +157,9 @@ function Catalog() {
                 <Dropdown.Item key="new">Profile</Dropdown.Item>
                 <Dropdown.Item key="new">Orders</Dropdown.Item>
                 <Dropdown.Item key="new">Settings</Dropdown.Item>
-                <Dropdown.Item key="logout" color="error" withDivider>
+                <Dropdown.Item key="logout"  withDivider>
                   <Navbar.Link>
-                    <Button onClick={logout} auto color="error" light>
+                    <Button onClick={logout} auto light>
                       Logout
                     </Button>
                   </Navbar.Link>
@@ -181,31 +210,7 @@ function Catalog() {
                     auto
                     css={{ padding: "$4" }}
                     light
-                    onClick={async () => {
-                      const user = JSON.parse(sessionStorage.getItem("user"));
-                      const updatedCartItems = [...cartItems, item]; // Create a new array with the updated cart items
-                      const response = await fetch(
-                        "http://localhost:8080/onlinebookstore_war_exploded/cart-servlet",
-                        {
-                          method: "POST",
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                          body: JSON.stringify({
-                            user,
-                            cartItems: updatedCartItems,
-                          }), // Pass the updated cartItems array
-                        }
-                      );
-
-                      if (response.ok) {
-                        toast.success(`${item.title} added to cart`);
-                        setCartItems(updatedCartItems); // Update the local state with the updated cart items
-                        console.log("Cart:", updatedCartItems);
-                      } else {
-                        toast.error("Failed to add item to cart");
-                      }
-                    }}
+                    onClick={() => addToCart(item)}
                   >
                     +<ShoppingCartIcon width={24} />
                   </Button>
@@ -218,7 +223,7 @@ function Catalog() {
       <center>
         <Pagination
           shadow
-          items={data.length}
+          items="12"
           currentPage={currentPage}
           pageSize={pageSize}
           onPageChange={onPageChange}

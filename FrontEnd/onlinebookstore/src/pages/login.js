@@ -18,6 +18,7 @@ import { useTheme as useNextTheme } from "next-themes";
 import { useTheme } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import Alert from "@mui/material/Alert";
+import { SSRProvider } from "@react-aria/ssr";
 
 export default function Login() {
   const router = useRouter();
@@ -71,6 +72,7 @@ export default function Login() {
   };
 
   return (
+    <SSRProvider>
     <div>
       <Navbar>
         <Navbar.Brand href="#">Online Bookstore</Navbar.Brand>
@@ -148,5 +150,6 @@ export default function Login() {
         </Container>
       </form>
     </div>
+    </SSRProvider>
   );
 }

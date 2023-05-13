@@ -18,19 +18,11 @@ import { useTheme as useNextTheme } from "next-themes";
 import { useTheme } from "@nextui-org/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { SSRProvider } from "@react-aria/ssr";
 
 export default function Register() {
   const router = useRouter();
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      sessionStorage.getItem("user") == null
-    ) {
-      router.push("/login");
-    } else {
-      router.push("/catalog");
-    }
-  }, []);
+
 
   const { setTheme } = useNextTheme();
   const { isDark } = useTheme();
@@ -65,6 +57,7 @@ export default function Register() {
   }
 
   return (
+    <SSRProvider>
     <div>
       <Navbar>
         <Navbar.Brand href="#">Online Bookstore</Navbar.Brand>
@@ -110,6 +103,7 @@ export default function Register() {
             />
             <Spacer y={1} />
             <Input
+              type="password"
               id="password"
               clearable
               bordered
@@ -123,6 +117,7 @@ export default function Register() {
             />
             <Spacer y={1} />
             <Input
+            type="password"
               id="passwordConfirm"
               clearable
               bordered
@@ -147,5 +142,6 @@ export default function Register() {
         </form>
       </Container>
     </div>
+    </SSRProvider>
   );
 }

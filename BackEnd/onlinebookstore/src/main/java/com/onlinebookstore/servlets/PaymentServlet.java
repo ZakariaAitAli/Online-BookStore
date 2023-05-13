@@ -1,42 +1,45 @@
 package com.onlinebookstore.servlets;
 
+import com.google.gson.Gson;
 import com.onlinebookstore.models.Payment;
 import com.onlinebookstore.proxy.PaymentService;
 import com.onlinebookstore.proxy.PaymentServiceProxy;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet(name = "PaymentServlet", value = "/payment-servlet")
 public class PaymentServlet extends HttpServlet {
     private PaymentService paymentService = new PaymentServiceProxy();
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Parse the payment details from the request parameters
-        String cardNumber = request.getParameter("cardNumber");
-        double amount = Double.parseDouble(request.getParameter("amount"));
-        Payment payment = new Payment(cardNumber, amount);
-
-        // Process the payment
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Payment payment = parsePaymentFromRequest(request);
         try {
             paymentService.processPayment(payment);
+            Gson gson = new Gson();
+            String json = gson.toJson("Payment processed successfully");
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
 
-            // Payment succeeded, return a success JSON response
-            response.setContentType("application/json");
-            PrintWriter out = response.getWriter();
-            out.print("{\"status\": \"success\"}");
-            out.flush();
         } catch (Exception e) {
-            // Payment failed due to authorization error, return an error JSON response
+            Gson gson = new Gson();
+            String json = gson.toJson("Payment failed");
             response.setContentType("application/json");
-            PrintWriter out = response.getWriter();
-            out.print("{\"status\": \"error\", \"message\": \"" + e.getMessage() + "\"}");
-            out.flush();
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+
         }
+
+    }
+
+    private Payment parsePaymentFromRequest(HttpServletRequest request) throws IOException {
+        String cardNumber = "";
+        double amount = 0.0;
+        return new Payment(cardNumber, amount);
     }
 }
-
